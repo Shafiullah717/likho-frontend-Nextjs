@@ -32,7 +32,7 @@ export default function LoginPage() {
         toast.success('Welcome back!');
         router.push('/dashboard');
       } else {
-        setError('Invalid server response');
+        setError('Wrong Credentials');
         toast.error('Authentication failed');
       }
     } catch (err) {

@@ -26,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/posts/');
+        const response = await fetch('https://shafiullah.pythonanywhere.com/api/posts/');
         const data = await response.json();
         setFeaturedPosts(data.payload.slice(0, 3));
       } catch (error) {
