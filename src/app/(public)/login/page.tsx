@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Lock, User, LogIn, AlertCircle, ArrowRight, Home } from 'lucide-react';
+import { Lock, User, AlertCircle, ArrowRight, Home } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -148,7 +148,7 @@ export default function LoginPage() {
             </form>
           </CardContent>
 
-          <CardFooter className="flex flex-col gap-4">
+                   <CardFooter className="flex flex-col gap-4">
             <Link 
               href="#" 
               className="text-sm text-blue-400 hover:text-blue-300 underline"
@@ -159,7 +159,7 @@ export default function LoginPage() {
             <div className="w-full border-t border-gray-700" />
             
             <p className="text-gray-400">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}  {/* Fixed apostrophe */}
               <Link 
                 href="/register" 
                 className="text-blue-400 hover:text-blue-300 underline underline-offset-4 font-medium"

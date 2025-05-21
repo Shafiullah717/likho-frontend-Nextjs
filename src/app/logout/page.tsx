@@ -8,7 +8,7 @@ export default function LogoutPage() {
 
   useEffect(() => {
     logout();
-  }, []);
+  }, [logout]); // Added logout to dependency array
 
   return <p className="p-4 text-center">Logging out...</p>;
 }

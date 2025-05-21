@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import API from '@/lib/api';
+import { AxiosError } from 'axios';
 import { ArrowLeft, Loader2, TextCursorInput, Type, User, Wand2 } from 'lucide-react';
 
 type FormData = {
@@ -18,12 +19,12 @@ type FormData = {
 };
 
 export default function EditPostPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const router = useRouter();
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormData>();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const contentLength = watch('content')?.length || 0;
+  const contentLength = watch('content', '').length; // Fixed contentLength type
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -37,8 +38,14 @@ export default function EditPostPage() {
           });
         }
       } catch (error) {
+        let errorMessage = 'Please try again later.';
+        
+        if (error instanceof AxiosError) {
+          errorMessage = error.response?.data?.message || error.message;
+        }
+
         toast.error('Failed to load post', {
-          description: (error as any).response?.data?.message || 'Please try again later.'
+          description: errorMessage
         });
         router.push('/posts');
       } finally {
@@ -59,8 +66,14 @@ export default function EditPostPage() {
         router.push('/posts');
       }
     } catch (error) {
+      let errorMessage = 'Please try again later.';
+      
+      if (error instanceof AxiosError) {
+        errorMessage = error.response?.data?.message || error.message;
+      }
+
       toast.error('Failed to update post', {
-        description: (error as any).response?.data?.message || 'Please try again later.'
+        description: errorMessage
       });
     } finally {
       setIsSubmitting(false);

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { AxiosError } from 'axios'; 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -39,13 +40,19 @@ export default function CreatePostPage() {
         router.push('/posts');
       }
     } catch (error) {
-      toast.error('Failed to create post', {
-        description: (error as any).response?.data?.message || 'Please try again later.'
-      });
-      console.error('Creation error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  let errorMessage = 'Please try again later.';
+  
+  if (error instanceof AxiosError) {
+    errorMessage = error.response?.data?.message || error.message;
+  }
+
+  toast.error('Failed to create post', {
+    description: errorMessage
+  });
+  console.error('Creation error:', error);
+} finally {
+  setIsLoading(false);
+}
   };
 
   return (

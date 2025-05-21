@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { Lock, User, ArrowRight, AlertCircle, Home } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { AxiosError } from 'axios'; 
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -36,7 +37,13 @@ export default function RegisterPage() {
         toast.error('Registration failed');
       }
     } catch (err) {
-      setError((err as any).response?.data?.message || 'Registration failed');
+      let errorMessage = 'Registration failed';
+      
+      if (err instanceof AxiosError) {
+        errorMessage = err.response?.data?.message || errorMessage;
+      }
+
+      setError(errorMessage);
       toast.error('Registration failed');
     } finally {
       setIsLoading(false);

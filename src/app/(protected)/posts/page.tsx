@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import API from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
@@ -32,7 +31,7 @@ export default function PostsPage() {
       try {
         const res = await API.get('/posts/');
         setPosts(res.data.payload);
-      } catch (err) {
+      } catch {
         toast.error('Failed to fetch posts');
       } finally {
         setLoading(false);
@@ -46,7 +45,7 @@ export default function PostsPage() {
       await API.delete(`/posts/${id}/`);
       setPosts(prev => prev.filter(post => post.id !== id));
       toast.success('Post deleted successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete post');
     } finally {
       setDeletePostId(null);
